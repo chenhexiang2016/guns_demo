@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.CustomerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.Customer">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="age" property="age" />
+        <result column="sex" property="sex" />
+        <result column="id_card" property="idCard" />
+        <result column="address" property="address" />
+        <result column="education_background" property="educationBackground" />
+        <result column="school_tag" property="schoolTag" />
+        <result column="is_married" property="isMarried" />
+        <result column="emergency_contactor" property="emergencyContactor" />
+        <result column="emergency_contactor_phone" property="emergencyContactorPhone" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, phone, age, sex, id_card, address, education_background, school_tag, is_married, emergency_contactor, emergency_contactor_phone
+    </sql>
+
+    <!-- 批量插入数据 -->
+    <insert id ="insertBatchNew" parameterType="java.util.List" >
+        <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+                   order= "AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey >
+        insert into customer
+        (name, phone, age, sex, id_card, address, education_background, school_tag, is_married, emergency_contactor, emergency_contactor_phone)
+        values
+        <foreach collection ="list" item="item" index= "index" separator =",">
+            (
+            #{item.name}, #{item.phone},#{item.age},
+            #{item.sex}, #{item.idCard},#{item.address},
+            #{item.educationBackground}, #{item.schoolTag},#{item.isMarried},
+            #{item.emergencyContactor}, #{item.emergencyContactorPhone}
+            )
+        </foreach >
+    </insert >
+
+</mapper>
